@@ -79,8 +79,8 @@ method init*(p: var Project) {.base.} =
     Language(name: "Nim", extension: "nim", color: fgYellow),
     Language(name: "Vue", extension: "vue", color: fgGreen),
     Language(name: "Golang", extension: "go", color: fgBlue),
-    Language(name: "C", extension: "go", color: fgWhite),
-    Language(name: "C++", extension: "go", color: fgMagenta),
+    Language(name: "C", extension: "c", color: fgWhite),
+    Language(name: "C++", extension: "cpp", color: fgMagenta),
     Language(name: "Other", extension: "", color: fg8Bit),
   ]
   p.size = 0
