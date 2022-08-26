@@ -29,7 +29,8 @@ method updateFiles(p: var Project, originPath = p.path): void {.base.} =
       p.files.add(path)
       p.size += BiggestUInt(getFileSize(path))
     of pcDir, pcLinkToDir:
-      p.updateFiles(path)
+      if not (".git" in path):
+        p.updateFiles(path)
 
 method getLangFiles*(p: var Project): seq[LangFile] {.base.} =
   ## get and count files ending in a language extension
@@ -67,7 +68,7 @@ method print*(p: var Project, showBar = true, showPercentage = true): void {.bas
       if lf.occurences == 0: continue
       let percentage = (lf.occurences/totalFiles) * 100
       stdout.styledWriteLine(lf.language.color, $int(percentage), "%", " ", lf.language.name)
-    echo "Project contains " & $p.size & " Byte"
+    echo "Project contains " & $p.files.len & " Files and " & $p.size & " Byte"
 
 method init*(p: var Project) {.base.} =
   ## initializes the project with default values
