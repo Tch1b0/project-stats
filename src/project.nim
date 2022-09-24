@@ -29,7 +29,7 @@ method updateFiles(p: var Project, originPath = p.path): void {.base.} =
       p.files.add(path)
       p.size += BiggestUInt(getFileSize(path))
     of pcDir, pcLinkToDir:
-      if not (".git" in path):
+      if (not (".git" in path)) and (not ("node_modules" in path)):
         p.updateFiles(path)
 
 method getLangFiles*(p: var Project): seq[LangFile] {.base.} =
