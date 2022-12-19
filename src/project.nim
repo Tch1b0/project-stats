@@ -1,8 +1,4 @@
-import os
-import std/terminal
-import std/strutils
-import sequtils
-import std/algorithm
+import os, terminal, strutils, sequtils, algorithm, language, json
 
 type 
   LangFile = tuple
@@ -13,10 +9,6 @@ type
     files*: seq[string]
     size: BiggestUInt
     languages: seq[Language]
-  Language* = object
-    name*: string
-    extension*: string
-    color*: ForegroundColor
 
 proc langFileCmp(a, b: LangFile): int =
   cmp(a.occurences, b.occurences)
@@ -72,6 +64,7 @@ method print*(p: var Project, showBar = true, showPercentage = true): void {.bas
 
 method init*(p: var Project) {.base.} =
   ## initializes the project with default values
+  let content = parseJson(readFile("languages.json"))
   p.languages = @[
     Language(name: "Python", extension: "py", color: fgBlue),
     Language(name: "JavaScript", extension: "js", color: fgYellow),
@@ -84,5 +77,9 @@ method init*(p: var Project) {.base.} =
     Language(name: "C++", extension: "cpp", color: fgMagenta),
     Language(name: "Other", extension: "", color: fg8Bit),
   ]
+
+  for node in content:
+    p.add(languageFromJson(node))
+
   p.size = 0
   p.updateFiles()
