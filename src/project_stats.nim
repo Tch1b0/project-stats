@@ -6,5 +6,4 @@ var
   proj = Project(path: c.getArg(1, "./"))
 
 proj.init()
-
 proj.print()
